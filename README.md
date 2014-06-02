@@ -1,29 +1,28 @@
 docker-drupal
 =============
 
-This repo contains a recipe for making a [Docker](http://docker.io) container for Drupal, using Linux, Apache and MySQL. 
-To build, make sure you have Docker [installed](http://www.docker.io/gettingstarted/).
+*This is still a work in progress, and does not yet work correctly.*
+
+This repo contains a recipe for making a set of [Docker](http://docker.io) containers for Drupal, using Linux, Apache and MySQL, with [Vagrant](http://vagrantup.com) orchestrating the container setup.
+To build with Vagrant, make sure you have at least version [1.6](http://www.vagrantup.com/downloads.html) installed, with the requisute support for Docker. 
 
 This will try to go in line with [Drupal automated-testing](https://drupal.org/automated-testing).
 
-## kill any running docker daemon
+To run, simply clone this repository 
 ```
-sudo killall docker
-```
-## Install docker:
-```
-curl get.docker.io | sudo sh -x
-```
-
-## Clone this repo somewhere, 
-```
-git clone https://github.com/ricardoamaro/docker-drupal.git
+git clone https://github.com/huit/docker-drupal.git
 cd docker-drupal
 ```
-and then build it:
+
+and run vagrant up with the docker provider:
 ```
-sudo docker build -t <yourname>/drupal .
+vagrant up --provider=docker
 ```
+
+This will downaload and build, then run the container. 
+
+
+(BELOW IS UNMODIFIED TEXT, WHICH MAY NOT BE RELEVANT. REVIEW NEEDED.)
 
 this can take a while but should eventually return a command prompt. It's done when it says "Successfully built {hash}"
 
