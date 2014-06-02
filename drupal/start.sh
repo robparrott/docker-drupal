@@ -1,11 +1,9 @@
 #!/bin/bash
 if [ ! -f /var/www/sites/default/settings.php ]; then
-	# Start mysql
-	/usr/bin/mysqld_safe & 
-	sleep 10s
+
 	# Generate random passwords 
 	DRUPAL_DB="drupal"
-	MYSQL_PASSWORD=`pwgen -c -n -1 12`
+	MYSQL_PASSWORD=""
 	DRUPAL_PASSWORD=`pwgen -c -n -1 12`
 	# This is so the passwords show up in logs. 
 	echo mysql root password: $MYSQL_PASSWORD
