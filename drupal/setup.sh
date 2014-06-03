@@ -4,6 +4,8 @@ source /etc/profile
 
 if [ ! -f /var/www/sites/default/settings.php ]; then
 
+    env
+
 	# Generate random passwords 
 	DRUPAL_DB="drupal"
 	MYSQL_PASSWORD=""
@@ -20,15 +22,15 @@ if [ ! -f /var/www/sites/default/settings.php ]; then
 
 	DB_URL="mysqli://drupal:${DRUPAL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/drupal"
 
-    env
+
 
 	mysql -u root -h ${MYSQL_HOST} -e "CREATE DATABASE drupal; GRANT ALL PRIVILEGES ON drupal.* TO 'drupal'@'localhost' IDENTIFIED BY '${DRUPAL_PASSWORD}; FLUSH PRIVILEGES;"
 #	mysql -u root -h 127.0.0.1 -p"$MYSQL_PASSWORD" -e "CREATE DATABASE drupal; GRANT ALL PRIVILEGES ON drupal.* TO 'drupal'@'localhost' IDENTIFIED BY '$DRUPAL_PASSWORD'; FLUSH PRIVILEGES;"
 	
-	# sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default
-	# a2enmod rewrite vhost_alias
-	# cd /var/www/
-	# DB_URL="mysqli://drupal:${DRUPAL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/drupal" 
-	# drush site-install standard -y --account-name=admin --account-pass=admin --db-url="${DB_URL}" 
+	sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default
+	a2enmod rewrite vhost_alias
+	cd /var/www/
+	DB_URL="mysqli://drupal:${DRUPAL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/drupal" 
+	drush site-install standard -y --account-name=admin --account-pass=admin --db-url="${DB_URL}" 
 fi
 

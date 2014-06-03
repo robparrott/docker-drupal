@@ -1,4 +1,4 @@
 #!/bin/bash
 
-setup.sh
+/setup.sh
 supervisord -n

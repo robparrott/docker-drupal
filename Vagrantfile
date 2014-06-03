@@ -17,7 +17,7 @@ Vagrant.configure("2") do |config|
       d.ports = ["8080:80", "2200:22"]
       d.env = { "MYSQL_HOST" => "172.17.0.3" }
 #      d.has_ssh = "true"
-      d.link("mysql2:db")
+      d.link("mysql:db")
     end
   end
 

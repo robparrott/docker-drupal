@@ -21,9 +21,8 @@ ADD ./supervisord.conf /etc/supervisord.conf
 RUN rm -rf /var/www/ ; cd /var ; drush dl drupal ; mv /var/drupal*/ /var/www/
 RUN chmod a+w /var/www/sites/default ; mkdir /var/www/sites/default/files ; chown -R www-data:www-data /var/www/
 
-RUN chmod 755 /start.sh /etc/apache2/foreground.sh
+RUN chmod 755 /start.sh /setup.sh /etc/apache2/foreground.sh
 
-RUN bash -x /setup.sh
 EXPOSE 80
 #CMD ["/usr/bin/supervisord"]
-CMD ["bash", /start.sh"]
+CMD ["bash", "/start.sh"]
