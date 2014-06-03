@@ -14,9 +14,10 @@ Vagrant.configure("2") do |config|
     drupal.vm.provider "docker" do |d|    
       d.build_dir = "drupal"
       d.name = "web"
-      d.ports = ["8090:80"]
+      d.ports = ["8080:80", "2200:22"]
+      d.env = { "MYSQL_HOST" => "172.17.0.3" }
 #      d.has_ssh = "true"
-      d.link("mysql:db")
+      d.link("mysql2:db")
     end
   end
 
