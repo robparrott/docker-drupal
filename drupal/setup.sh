@@ -22,9 +22,19 @@ if [ ! -f /var/www/sites/default/settings.php ]; then
 
 	DB_URL="mysqli://drupal:${DRUPAL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/drupal"
 
+    MYSQL_PASSWORD_ARG=
+    if ! [ -z ${MYSQL_PASSWORD} ]; then
+    	MYSQL_PASSWORD_ARG="-p${MYSQL_PASSWORD}"
+    fi
+    echo "creating dataase for drupal ..."
+    mysql -u root -h ${MYSQL_HOST} ${MYSQL_PASSWORD_ARG} -e "CREATE DATABASE drupal;"
 
+    echo "granting access for drupal user ... "
+	mysql -u root -h ${MYSQL_HOST} ${MYSQL_PASSWORD_ARG} -e "GRANT ALL PRIVILEGES ON drupal.* TO 'drupal'@'%';  FLUSH PRIVILEGES;"
 
-	mysql -u root -h ${MYSQL_HOST} -e "CREATE DATABASE drupal; GRANT ALL PRIVILEGES ON drupal.* TO 'drupal'@'localhost' IDENTIFIED BY '${DRUPAL_PASSWORD}; FLUSH PRIVILEGES;"
+    echo "setting the password for the drupal user ... "
+	mysql -u root -h ${MYSQL_HOST} ${MYSQL_PASSWORD_ARG} -e "SET PASSWORD FOR 'drupal'@'%' = PASSWORD('${DRUPAL_PASSWORD}');"
+
 #	mysql -u root -h 127.0.0.1 -p"$MYSQL_PASSWORD" -e "CREATE DATABASE drupal; GRANT ALL PRIVILEGES ON drupal.* TO 'drupal'@'localhost' IDENTIFIED BY '$DRUPAL_PASSWORD'; FLUSH PRIVILEGES;"
 	
 	sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default
