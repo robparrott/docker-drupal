@@ -19,9 +19,13 @@ ADD ./foreground.sh /etc/apache2/foreground.sh
 ADD ./supervisord.conf /etc/supervisord.conf
 RUN chmod 755 /start.sh /setup.sh /etc/apache2/foreground.sh
 
-# Retrieve drupal
-RUN rm -rf /var/www/ ; cd /var ; drush dl drupal ; mv /var/drupal*/ /var/www/
-RUN chmod a+w /var/www/sites/default ; mkdir /var/www/sites/default/files ; chown -R www-data:www-data /var/www/
+# Retrieve drupal & setup dirs for it
+RUN rm -rf /var/www/html ; cd /var ; drush dl drupal ; mv /var/drupal*/ /var/www/html
+RUN chmod a+w /var/www/html/sites/default ; mkdir /var/www/html/sites/default/files ; chown -R www-data:www-data /var/www/
+
+# Setup apache
+ADD ./default.conf /etc/apache2/sites-available/000-default.conf
+RUN a2enmod rewrite vhost_alias
 
 # Setup SSHd so we can login and debug
 RUN DEBIAN_FRONTEND=noninteractive  apt-get install -y zip unzip openssh-server

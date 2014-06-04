@@ -34,15 +34,12 @@ if [ ! -f /var/www/sites/default/settings.php ]; then
     echo "setting the password for the drupal user ... "
 	mysql -u root -h ${MYSQL_HOST} ${MYSQL_PASSWORD_ARG} -e "SET PASSWORD FOR 'drupal'@'%' = PASSWORD('${MYSQL_PASSWORD}');"
 
-#	mysql -u root -h 127.0.0.1 -p"$MYSQL_PASSWORD" -e "CREATE DATABASE drupal; GRANT ALL PRIVILEGES ON drupal.* TO 'drupal'@'localhost' IDENTIFIED BY '$DRUPAL_PASSWORD'; FLUSH PRIVILEGES;"
-	
-	sed -i 's/AllowOverride None/AllowOverride All/' /etc/apache2/sites-available/default
-	a2enmod rewrite vhost_alias
-	cd /var/www/
+	# Install Drupal
 	DB_URL="mysqli://drupal:${MYSQL_PASSWORD}@${MYSQL_HOST}:${MYSQL_PORT}/drupal"
     echo MySQL connection string: ${DB_URL}
 
     echo "Running Drush ..."
-	drush site-install standard -y --account-name=admin --account-pass=admin --db-url="${DB_URL}" 
+    cd /var/www/html/
+	drush site-install standard -y --site-name="Twelve Factor Drupal" --account-name=admin --account-pass=admin --db-url="${DB_URL}" 
 fi
 
