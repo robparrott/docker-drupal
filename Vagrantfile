@@ -23,7 +23,7 @@ Vagrant.configure("2") do |config|
       d.name = "mysql"
       d.ports = ["3306:3306"]
       d.env = env_vars
-#      d.has_ssh = "true"
+      #d.has_ssh = "true"
     end
   end
 
@@ -31,21 +31,22 @@ Vagrant.configure("2") do |config|
     drupal.vm.provider "docker" do |d|    
       d.build_dir = "drupal"
       d.name = "drupal"
-      d.ports = ["8080:80", "2200:22"]
+      d.ports = ["8090:80", "2200:22"]
       d.env = env_vars
-#      d.has_ssh = "true"
+      #d.has_ssh = "true"
       d.link("mysql:db")
     end
   end
 
-  # config.vm.define "varnish" do |varnish|
-  #   varnish.vm.provider "docker" do |d|    
-  #     d.build_dir = "varnish"
-  #     d.ports = ["8080:80", "2202:22"]  
-  #     d.has_ssh = "true"
-  #     d.link("web:web")
-  #   end
-  # end
+  config.vm.define "varnish" do |varnish|
+    varnish.vm.provider "docker" do |d|    
+      d.build_dir = "varnish"
+      d.name = "varnish"
+      d.ports = ["8080:80"]  
+      #d.has_ssh = "true"
+      d.link("drupal:drupal")
+    end
+  end
 
 #   config.vm.define "terminal" do |terminal|
 #     terminal.vm.provider "docker" do |d|    
