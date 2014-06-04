@@ -19,10 +19,12 @@ cd docker-drupal
 
 and run vagrant up with the docker provider:
 ```
-vagrant up --provider=docker
+vagrant up mysql --provider=docker
+vagrant up drupal --provider=docker
+vagrant up varnish --provider=docker
 ```
 
-This will downaload and build, then run the container. 
+This will download and build, then run the container.  Note: we start up each individually in order to avoid some funky race conditions when docker tried to link the containers. Hopefully this will be resolved in a later version of Vagrant.
 
 
 (BELOW IS UNMODIFIED TEXT, WHICH MAY NOT BE RELEVANT. REVIEW NEEDED.)
