@@ -10,6 +10,8 @@ env_vars = {
 	"MYSQL_USER" => "drupal",
 	"MYSQL_PASSWORD" => "SmallSecret",
 	"MYSQL_ROOT_PASSWORD" => "BigSecret",
+	"MEMCACHED_USER" => "admin",
+    "MEMCACHED_PASS" => "CachedSecret",
 	"ROOT_PASSWORD" => "passw0rd",
 	"SSH_PUB_KEY" => vagrant_insecure_public_key
 }
@@ -27,6 +29,17 @@ Vagrant.configure("2") do |config|
     end
   end
 
+  config.vm.define "memcached" do |memcached|
+  	memcached.vm.boot_timeout = 60
+    memcached.vm.provider "docker" do |d|
+      d.build_dir = "memcached"
+      d.name = "memcached"
+      d.ports = ["11211:11211"]
+      d.env = env_vars
+      #d.has_ssh = "true"
+    end
+  end
+
   config.vm.define "drupal" do |drupal|
     drupal.vm.provider "docker" do |d|    
       d.build_dir = "drupal"
@@ -35,6 +48,7 @@ Vagrant.configure("2") do |config|
       d.env = env_vars
       #d.has_ssh = "true"
       d.link("mysql:db")
+      d.link("memcached:memcached")
     end
   end
 
