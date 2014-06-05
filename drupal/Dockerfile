@@ -20,8 +20,12 @@ ADD ./supervisord.conf /etc/supervisord.conf
 RUN chmod 755 /start.sh /setup.sh /etc/apache2/foreground.sh
 
 # Retrieve drupal & setup dirs for it
-RUN rm -rf /var/www/html ; cd /var ; drush dl drupal ; mv /var/drupal*/ /var/www/html
-RUN chmod a+w /var/www/html/sites/default ; mkdir /var/www/html/sites/default/files ; chown -R www-data:www-data /var/www/
+RUN rm -rf /var/www/html ; cd /var ; drush dl drupal ; 
+RUN mv /var/drupal*/ /var/www/html
+RUN chmod a+w /var/www/html/sites/default ; mkdir /var/www/html/sites/default/files ; 
+RUN cd /var/www/html/ && drush dl memcache && drush dl memcache_admin
+RUN chown -R www-data:www-data /var/www/
+ADD ./settings.php.memcache /tmp/settings.php.memcache
 
 # Setup apache
 ADD ./default.conf /etc/apache2/sites-available/000-default.conf

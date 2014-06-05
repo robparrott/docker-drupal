@@ -62,13 +62,4 @@ Vagrant.configure("2") do |config|
     end
   end
 
-#   config.vm.define "terminal" do |terminal|
-#     terminal.vm.provider "docker" do |d|    
-#       d.image = "dockeruser/sshd"	
-#       d.has_ssh = "true"
-#       d.ports = ["22:2222"]
-# #      d.link("mysql:db")
-#     end
-#   end
-
 end
