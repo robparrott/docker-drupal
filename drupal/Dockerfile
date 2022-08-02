@@ -1,4 +1,4 @@
-FROM    ubuntu:14.04 
+FROM    ubuntu:14.04@sha256:d7a459ecd77ebb09525584f2c3e1bb7f6a2879d90df8a3523c1b899dfc2a226f 
 
 
 #RUN echo "deb http://archive.ubuntu.com/ubuntu saucy main restricted universe multiverse" > /etc/apt/sources.list
